@@ -8,8 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract VistorNFT is ERC721URIStorage, Ownable {
     struct VisitorInfo {
         address visitor;
-        string restaurant;
-        uint256 rank;
+        string foodType;
         string URI;
     }
     
@@ -21,7 +20,7 @@ contract VistorNFT is ERC721URIStorage, Ownable {
     mapping(uint256 => VisitorInfo) private _vistorInfoByTokenId;
     
     event TokenMinted(address indexed to, uint256 tokenId);
-    event VisitorInfoRegistered(address indexed creator, string restaurant, uint256 rank, string URI, uint256 tokenId);
+    event VisitorInfoRegistered(address indexed visitor, string foodType, string URI, uint256 tokenId);
     event TokenURISet(uint256 tokenId, string indexed visitorURI);
 
     constructor() ERC721("VistorNFT", "VST") Ownable(msg.sender) ERC721URIStorage(){
@@ -40,18 +39,17 @@ contract VistorNFT is ERC721URIStorage, Ownable {
         return tokenId;
     }
 
-    function registerVisitorInfo(address _visitor, string memory _restaurant, uint256 _rank, string memory _URI, uint256 _tokenId) public onlyOwner {
+    function registerVisitorInfo(address _visitor, string memory _foodType, string memory _URI, uint256 _tokenId) public onlyOwner {
         setTokenURI(_tokenId,_URI);
         VisitorInfo memory visitorInfo = VisitorInfo({
             visitor: _visitor,
-            restaurant: _restaurant,
-            rank: _rank,
+            foodType: _foodType,
             URI: _URI
         });
 
         _vistorInfoByTokenId[_tokenId] = visitorInfo;
 
-        emit VisitorInfoRegistered(_visitor, _restaurant, _rank, _URI, _tokenId);
+        emit VisitorInfoRegistered(_visitor, _foodType, _URI, _tokenId);
     }   
 
     function setTokenURI(uint256 _tokenId, string memory _tokenURI) onlyOwner public { //아무나 막 tokenURI를 바꾸면 안되기 때문
