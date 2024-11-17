@@ -15,6 +15,10 @@ const config: HardhatUserConfig = {
       url: "https://endpoints.omniatech.io/v1/mantle/sepolia/public",
       accounts: [process.env.PRIVATE_KEY as string],
     },
+    flowevm: {
+      url: "https://testnet.evm.nodes.onflow.org",
+      accounts: [process.env.PRIVATE_KEY as string],
+    },
   },
 };
 
